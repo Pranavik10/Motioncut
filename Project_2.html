@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image-Slider</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .slider-container {
+            width: 100%;
+            max-width: 1000px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .slider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            position: absolute;
+            width: 60%;
+            max-width: 600px;
+            height: 80vh;
+            overflow: hidden;
+            border-radius: 20px;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0.5;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1.1);
+            z-index: 1;
+        }
+
+        .slide.left, .slide.right {
+            transform: scale(0.9);
+            z-index: 0;
+        }
+
+        .slide.left {
+            transform: translateX(-30%) scale(0.9);
+        }
+
+        .slide.right {
+            transform: translateX(30%) scale(0.9);
+        }
+
+        .text {
+            color: #f2f2f2;
+            font-size: 18px;
+            padding: 12px 20px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            text-align: center;
+            max-width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide left">
+                <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" alt="Image 1">
+                <div class="text">A beautiful sunset over the mountains</div>
+            </div>
+            <div class="slide active">
+                <img src="https://c4.wallpaperflare.com/wallpaper/371/373/249/nature-beach-sea-water-wallpaper-preview.jpg" alt="Image 2">
+                <div class="text">A stunning view of a turquoise sea</div>
+            </div>
+            <div class="slide right">
+                <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/403456292.jpg?k=bc3da5d476f43e1165020f17bce4a79d6cb732db588bf07f1d8111ecb77c63d8&o=&hp=1" alt="Image 3">
+                <div class="text">A breathtaking view of green hills</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let slideIndex = 1;
+        const slides = document.querySelectorAll('.slide');
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('left', 'active', 'right');
+                if (index === slideIndex - 1) {
+                    slide.classList.add('active');
+                } else if (index === (slideIndex % slides.length)) {
+                    slide.classList.add('right');
+                } else {
+                    slide.classList.add('left');
+                }
+            });
+        }
+
+        function nextSlide() {
+            slideIndex = (slideIndex % slides.length) + 1;
+            updateSlides();
+        }
+
+        slides.forEach(slide => {
+            slide.addEventListener('click', nextSlide);
+        });
+
+        updateSlides();    
+        setInterval(nextSlide, 5000);
+    </script>
+</body>
+</html>
